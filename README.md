@@ -14,7 +14,7 @@ The project also includes optimizations to handle large datasets efficiently, ut
 
 ## Files in This Repository
 
-- **`steam_reviews_sentiment_analysis.ipynb`**: The main Jupyter notebook file that contains the sentiment analysis workflow. This notebook processes the data, performs sentiment analysis, and generates visualizations for exploring the sentiment trends of Steam game reviews.
+- **`steam_analysis2,0.ipynb`**: The main Jupyter notebook file that contains the sentiment analysis workflow. This notebook processes the data, performs sentiment analysis, and generates visualizations for exploring the sentiment trends of Steam game reviews.
 - **`largedata_reader.py`**: This Python file includes the `largedataframereader` function, which speeds up the data processing by leveraging multithreading. It filters the dataset for English reviews, non-empty entries, and reviews with a minimum length of three characters.
 - **`game_scores_cache.csv`**: A CSV file that stores precomputed sentiment scores for each game. The cache helps avoid recomputing the sentiment scores every time the analysis is run.
 
