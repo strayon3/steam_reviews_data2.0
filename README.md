@@ -1,3 +1,7 @@
+![image](https://github.com/user-attachments/assets/29f7047a-bb96-4202-a355-89277e261b66)
+
+
+
 # Steam Reviews Sentiment Analysis
 
 This project is dedicated to analyzing and visualizing user sentiment from Steam game reviews. The goal is to process the reviews, perform sentiment analysis, and display interactive visualizations to gain insights into public perceptions of various games. It leverages a combination of data cleaning, multithreading for faster processing, and sentiment scoring based on user reviews.
