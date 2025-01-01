@@ -37,7 +37,8 @@ set df variable to the file path of the steam dataframe
 When running this program to see how it works and to look at the data the visualizations should look as follows 
 but still run it so you can use the zoom in feature 
 
-![image](https://github.com/user-attachments/assets/acc0415f-f530-4c3a-ac1d-8ea71f557195)
+![image](https://github.com/user-attachments/assets/805ee9e9-b87c-498c-87ee-09f3459469e9)
+
 
 
 ![image](https://github.com/user-attachments/assets/72e90717-75d5-4fe7-876e-1688f87fa05b)
