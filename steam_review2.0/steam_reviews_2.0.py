@@ -18,6 +18,7 @@ from largedata_reader import merge_scores
 #File sentiment scores will be cahced to its to help not have to recompute the sentiment scores every time 
 Cache_file = "game_scores_cache.csv"
 
+
 game_titles = []
 
 if __name__ == '__main__':
@@ -46,7 +47,7 @@ with open("c:/Users/stray/Desktop/game_reviews_wordlist/negative_sentiment_words
 def analyze_review(dataframe, game_titles, good_keywords, bad_keywords):
     #check if cache file exists
     if os.path.exists(Cache_file):
-        logging.info("Cache file found, loading sentiment scores...........")
+        print("Cache file found, loading sentiment scores...........")
         return load_scores_from_csv(Cache_file)
     
     logging.info("No cache file found, starting sentiment analysis..........")
@@ -54,7 +55,7 @@ def analyze_review(dataframe, game_titles, good_keywords, bad_keywords):
     game_scores = {title:{"Good":0, "Bad":0} for title in game_titles}
     chunk_size = 100000
 
-    logging.info(f"Chunk size set to {chunk_size} reviews per batch..")
+    print(f"Chunk size set to {chunk_size} reviews per batch..")
 
     good_keywords_set = set(good_keywords)
     bad_keywords_set = set(bad_keywords)
@@ -64,19 +65,19 @@ def analyze_review(dataframe, game_titles, good_keywords, bad_keywords):
     with te() as executor:
         for i,chunk_results in enumerate(
             executor.map(
-                lambda chunk: process_game_chunk(chunk, good_keywords_set, bad_keywords_set, game_scores),
-                chunks
+                lambda chunk: process_game_chunk(chunk, good_keywords_set,
+                                 bad_keywords_set, game_scores),chunks
             )
         ):
-            logging.info(f"Processed {i + 1} chunks of reviews")
+            print(f"Processed {i + 1} chunks of reviews")
             merge_scores(chunk_results, game_scores)
             logging.debug(f"Scores after chunk {i + 1}: {game_scores}")
             gc.collect() # free memory to make sure no overflows happen 
 
-    logging.info("Saving computed game scores to CSV cache file")
+    print("Saving computed game scores to CSV cache file")
     save_scores_to_csv(game_scores, Cache_file)
 
-    logging.info("Sentiment analysis completed successfully.")
+    print("Sentiment analysis completed successfully.")
     return game_scores
 
 def load_scores_from_csv(filepath):
@@ -86,14 +87,23 @@ def load_scores_from_csv(filepath):
         reader = csv.DictReader(file)
         for row in reader:
             scores[row["Title"]] = {"Good": int(row["Good"]), "Bad": int(row["Bad"])}
-    logging.info("Successfully loaded game scores from cache.")
+            print("Successfully loaded game scores from cache.")
     return scores
 
 def save_scores_to_csv(game_scores, filepath):
     """Save sentiment scores to a CSV file."""
-    with open(filepath, mode="w", newline="") as file:
+    with open(filepath, mode="w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["Title", "Good", "Bad"])
         for title, counts in game_scores.items():
             writer.writerow([title, counts["Good"], counts["Bad"]])
-    logging.info(f"Game scores saved to cache file: {filepath}")
+            print(f"Game scores saved to cache file: {filepath}")
+
+
+
+
+
+game_sentiment = analyze_review(dataframe,game_titles,good_keywords,bad_keywords)
+games = list(game_sentiment.keys())
+good_reviews = [game_sentiment[game]["Good"] for game in games]
+bad_reviews = [game_sentiment[game]["Bad"] for game in games]
