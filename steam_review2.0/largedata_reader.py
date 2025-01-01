@@ -6,7 +6,7 @@ import logging
 from collections import defaultdict
 
 #configure logging for backgorund processes
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
 
 def parallel_read_csv(file_path):
      """
@@ -45,14 +45,14 @@ def parallel_read_csv(file_path):
 
 def process_game_chunk(chunk, good_keywords,bad_keywords,game_scores):
      """Process a single chunk of the dataset"""
-     logging.info("Starting processing a chunk of reviews")
+     print("Starting processing a chunk of reviews")
      local_scores = defaultdict(lambda: {"Good" : 0, "Bad" : 0})
 
-     for _ , row in chunk.itterrows():
+     for _ , row in chunk.iterrows():
           title = row["app_name"]
           review = row["review"].lower().split() #tokenize review into words
           if title in game_scores: #Process only known game titles 
-               logging.debug(f"Processing review for {title}")
+               
 
                good_count = sum([1 for word in review if word in good_keywords])
                bad_count = sum([1 for word in review if word in bad_keywords])
@@ -61,17 +61,17 @@ def process_game_chunk(chunk, good_keywords,bad_keywords,game_scores):
                local_scores[title]["Good"] += good_count
                local_scores[title]["Bad"] += bad_count
 
-               logging.info(f"Finished Processing {title}. Scores: {local_scores[title]}")
+               print(f"Finished Processing {title}. Scores: {local_scores[title]}")
 
-     logging.info("Completed processing chunk.")
+     print("Completed processing chunk.")
      return local_scores
 
 def merge_scores(local_scores, game_scores):
      '''Merge local scores into the main scores.'''
-     logging.info("Merging local scores into global game scores.")
+     print("Merging local scores into global game scores.")
      for title, scores in local_scores.items():
           game_scores[title]["Good"] += scores["Good"]
           game_scores[title]["Bad"] += scores["Bad"]
-     logging.info("Scores merged successfully.")
+     print("Scores merged successfully.")
 
      
